@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../../../../contexts/Auth";
+import { useDatabase } from "../../../../contexts/Database";
 
 import UnloggedMenu from "./components/UnloggedMenu/UnloggedMenu";
 import LoggedMenu from "./components/LoggedMenu/LoggedMenu";
@@ -8,7 +8,10 @@ import "./ProfileBubble.css"
 
 const ProfileBubble = () => {
 
-    const {currentUser} = useAuth();
+    const {
+        currentUser,
+        currentDocument,
+    } = useDatabase();
 
     const [display, setDisplay] = useState<boolean>(false);
 
@@ -21,6 +24,12 @@ const ProfileBubble = () => {
             <div
                 className="profile-bubble"
                 onClick={handleSwitchDisplay}
+                style={{
+                    backgroundImage: 
+                        !currentUser
+                            ? 'url("../../../../assets/images/avatar.jpg")'
+                            : `url(${currentDocument?.profilePic})`
+                }}
             />
                 {
                     display 
@@ -33,7 +42,6 @@ const ProfileBubble = () => {
                                     />
                                     : <LoggedMenu 
                                         onClose={handleSwitchDisplay}
-                                        username={currentUser.displayName ?? undefined}
                                     />
                             }
                         </>

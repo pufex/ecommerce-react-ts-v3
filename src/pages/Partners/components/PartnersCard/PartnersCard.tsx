@@ -1,4 +1,4 @@
-import type { PartnerType } from "../../../../contexts/Partners"
+import type { PartnerType } from "../../../../contexts/Database"
 
 import { Link } from "react-router-dom"
 
@@ -11,7 +11,7 @@ type PartnersCardProps = Pick<
     "name" |
     "logo" |
     "thumbnail" |
-    "locationsNumber"
+    "locations"
 > & {
     location: string,
 }
@@ -22,7 +22,7 @@ const PartnersCard = ({
     trade,
     logo,
     thumbnail,
-    locationsNumber,
+    locations,
     location,
 }:PartnersCardProps) => {
     return <div
@@ -44,7 +44,7 @@ const PartnersCard = ({
                     {`Category: ${trade}`}
                 </li>
                 <li className="partners-card__info-item">
-                    {`Locations: ${locationsNumber}`}
+                    {`Locations: ${locations.length}`}
                 </li>
             </ul>
         </section>

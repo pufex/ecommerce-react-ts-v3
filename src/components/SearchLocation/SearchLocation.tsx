@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCitiesContext } from "../../contexts/Cities";
 import { useIconsContext } from "../../contexts/Icon"
 
 import Dropdown from "../Dropdown/Dropdown";
 
 import "./SearchLocation.css"
+import { useDatabase } from "../../contexts/Database";
 
 const SearchLocation = () => {
 
     const navigate = useNavigate();
 
+    const { FaSearch } = useIconsContext()
+    const {cities} = useDatabase();
+    
     const [searchValue, setSearch] = useState<string>("");
-
+    
     const handlerDropdownCityChoice = (city: string) => {
         setSearch(city);
     }
-
-    const cities = useCitiesContext();
-    const { FaSearch } = useIconsContext()
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

@@ -29,6 +29,8 @@ import { LuLogIn } from "react-icons/lu";
 import { IoIosLock } from "react-icons/io";
 import { IoIosUnlock } from "react-icons/io";
 import { MdOutlineLogout } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import { FaCog } from "react-icons/fa";
 
 type IconContextType = {
     GiHamburgerMenu: IconType,
@@ -59,6 +61,8 @@ type IconContextType = {
     IoIosLock: IconType,
     IoIosUnlock: IconType,
     MdOutlineLogout: IconType,
+    FaCog: IconType,
+    FaEdit: IconType,
 }
 
 const IconsContext = createContext<IconContextType | null>(null);
@@ -105,6 +109,8 @@ const IconProvider = ({children}:IconProps) => {
       IoIosLock,
       IoIosUnlock,
       MdOutlineLogout,
+      FaCog,
+      FaEdit,
     }}
   >
     {children}

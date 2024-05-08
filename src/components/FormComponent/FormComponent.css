@@ -12,10 +12,10 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    padding-block: 1rem;
 }
 
 .form-component__heading{
+    padding-block: 1rem;
     font-size: 2.25rem;
     font-weight: 600;
     color: var(--text-color-1);
@@ -31,4 +31,5 @@
     font-size: 1.5rem;
     color: var(--error-color);
     font-weight: 700;
+    padding-block: 1rem;
 }

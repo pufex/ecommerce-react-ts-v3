@@ -1,4 +1,4 @@
-import type { ProductType } from "../contexts/Partners"
+import type { ProductType } from "../contexts/Database"
 import type { ReactElement } from "react"
 
 import { useEffect, useRef, useState, createContext, useContext } from "react"
@@ -74,14 +74,18 @@ const UseCartContextProvider = ({
 export default UseCartContextProvider
 
 const fetchCart = (id: string): CartType => {
-    if(!localStorage.getItem(`smaczne-pl-cart-${id}`)){
-        localStorage.setItem(`smaczne-pl-cart-${id}`, `{"id": ${id}, "cart": []}`)
+    const cart = localStorage.getItem(`eccomerce-cart-${id}`);
+    if(cart){
+        return JSON.parse(cart)
+    }else{
+        const obj = { id, cart: [], }
+        localStorage.setItem(`eccomerce-cart-${id}`, JSON.stringify(obj));
+        return obj
     }
-    return JSON.parse(localStorage.getItem(`smaczne-pl-cart-${id}`)!)
 }
 
 const saveCart = (id: string, newCart: CartType) => {
-    localStorage.setItem(`smaczne-pl-cart-${id}`, JSON.stringify(newCart))
+    localStorage.setItem(`eccomerce-cart-${id}`, JSON.stringify(newCart))
 } 
 
 export const useCart = (id: string) => {

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom"
-import { usePartnersContext } from "../../contexts/Partners";
+import { useDatabase } from "../../contexts/Database";
 import { useCart } from "../../hooks/useCart";
 
 import { Link } from "react-router-dom";
@@ -15,13 +15,20 @@ const Cart = () => {
 
     const navigate = useNavigate();
 
+    const {partners} = useDatabase();
+
     const [searchParams] = useSearchParams();
-    if(!searchParams.get("partner"))
+    const partnerId = searchParams.get("partner")!;
+
+    if(!partnerId)
     return <ErrorComponent />
 
 
-    const partnerId = searchParams.get("partner")!;
-    const {name: partnerName} = usePartnersContext().find(({id}) => id == partnerId)!
+    const partner = useMemo(() => {
+
+        return partners?.
+            find(({id}) => id == partnerId);
+    }, [partners])
     const {
         cart, 
         removeFromCart, 
@@ -63,7 +70,7 @@ const Cart = () => {
                 Summary:
             </h1>
             <span className="cart-summary__information">
-                {`Partner: ${partnerName}`}
+                {`Partner: ${partner?.name}`}
             </span>
             <ul className="cart-summary__list">
                 <li className="cart-summary__list-item">

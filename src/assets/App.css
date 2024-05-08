@@ -16,6 +16,7 @@ body, html, #root{
 }
 
 body{
+    --inset-shadow-color: rgba(0, 0, 0, 0.468);
     --skeleton-color: hsl(0, 0%, 50%);
 }
 
@@ -74,7 +75,6 @@ body{
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    --_inset-shadow-color: rgba(0, 0, 0, 0.468);
     background-color: var(--element-color-1);
     height: 3.5rem;
     width: 100%;
@@ -105,4 +105,32 @@ body{
 .btn--link-like{
     text-decoration: underline;
     background-color: transparent;
+}
+
+.form__input-container{
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.form__double-input{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.form__submit-container{
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.form__input-and-2-buttons{
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 120px 120px;
+    align-items: end;
+}
+
+.form__input-and-2-buttons > .button{
+    height: 2.5rem;
 }

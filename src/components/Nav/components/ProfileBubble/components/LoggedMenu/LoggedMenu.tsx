@@ -1,40 +1,49 @@
 import { useState } from "react";
-import { useAuth } from "../../../../../../contexts/Auth";
+import { useNavigate } from "react-router-dom";
+import { useDatabase } from "../../../../../../contexts/Database";
 import { useIconsContext } from "../../../../../../contexts/Icon";
 
 import "./LoggedMenu.css"
 
 type LoggedMenuProps = {
-    username?: string,
     onClose: () => void;
 }
 
 // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithpopup
 
 const LoggedMenu = ({
-    username,
     onClose,
 }:LoggedMenuProps) => {
+
+    const navigate = useNavigate();
+
+    const { MdOutlineLogout, FaCog} = useIconsContext()
+    const {
+        currentUser,
+        currentDocument,
+        logout
+    } = useDatabase();
 
     const [error, setError] = useState<boolean | string>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
-    const { logout } = useAuth()
-
-    const {
-        MdOutlineLogout
-    } = useIconsContext()
 
     const handleLogout = async () => {
         try{
             error
             setLoading(true)
             await logout();
+            navigate("/")
             window.location.reload();
         }catch{
             setError("Failed to log out.")
         }
         setLoading(false)
+    }
+
+    const handleSettingsPick = () => {
+        onClose();
+        navigate("/account-settings")
     }
 
     return <>
@@ -48,13 +57,25 @@ const LoggedMenu = ({
                     Logged in
                 </h1>
                 {
-                    username 
+                    currentUser 
                         && <p className="logged-menu__paragraph">
-                            Hello, {username}!
+                            Hello, {currentDocument?.username}!
                         </p>
                 }
             </header>
             <div className="logged-menu__options">
+                <button
+                    className="btn logged-menu__option"
+                    onClick={handleSettingsPick}
+                >
+                    <span className="logged-menu__option-title">
+                        Account
+                    </span>
+                    <FaCog 
+                        className="logged-menu__icon-settings"
+                        size={20}
+                    />
+                </button>
                 <button
                     className="btn logged-menu__option"
                     onClick={handleLogout}

@@ -3,3 +3,5 @@ export type InputTextType = {
     isError: boolean,
     errorMessage: string,   
 }
+
+export type fetchStatus = "loading" | "error" | "success"

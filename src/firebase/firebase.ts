@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore";
 
 console.log(import.meta.env.REACT_APP_FIREBASE_API_KEY)
 
@@ -17,3 +17,6 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const users = collection(db, "users");
+export const partnersCollection = collection(db, "partners");
+export const citiesCollection = collection(db, "cities");

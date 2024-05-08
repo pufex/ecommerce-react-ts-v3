@@ -49,6 +49,7 @@
     width: 100%;
 }
 
+
 .logged-menu__option{
     height: 3rem;
     width: 100%;
@@ -69,6 +70,10 @@
 
 .logged-menu__icon-logout{
     color: var(--error-color);
+}
+
+.logged-menu__icon-settings{
+    color: var(--text-color-1);
 }
 
 .logged-menu__option:hover{

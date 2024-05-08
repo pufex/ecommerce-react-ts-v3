@@ -1,4 +1,4 @@
-import type { ProductType } from "../../../contexts/Partners" 
+import { ProductType } from "../../../contexts/Database"
 
 import { Link } from "react-router-dom"
 import Carousel from "../../../components/Carousel/Carousel"

@@ -1,8 +1,7 @@
 import { useSearchParams } from "react-router-dom"
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useIconsContext } from "../../contexts/Icon"
-import { useCitiesContext } from "../../contexts/Cities"
-import { usePartnersContext } from "../../contexts/Partners"
+import { useDatabase } from "../../contexts/Database"
 
 import Search from "../../components/Search/Search"
 import SearchLocation from "../../components/SearchLocation/SearchLocation"
@@ -12,53 +11,62 @@ import "./Partners.css"
 
 const Partners = () => {
 
-
+    const { partners } = useDatabase()
     const { FaLocationDot } = useIconsContext()
-
-    const [searchParams] = useSearchParams();
+    
     const [searchPartners, setSearhPartners] = useState<string>("")
+    const [searchParams] = useSearchParams();
+    const location = searchParams.get("location")
 
-    const city = useCitiesContext().find(
-        (city) => city.name == searchParams.get("location")
-    )
+    const partnersLogos = useMemo(() => {
+        return partners?.map(({name, logo, website}) => {
+            return <a 
+                href={website}
+                className="partners__logos__link"
+                target="_blank"
+            >
+                <img 
+                    src={logo}
+                    alt={`${name} logo`}
+                    className="partners__logos__logo"
+                />
+            </a>
+        })
+    }, [partners])
 
-    const partners = usePartnersContext()
+    const cityPartners = useMemo(() => {
+        return partners?.
+            filter(({locations}) => {
+                return locations.includes(location ?? "")
+            })
+            .map((partner) => {
+                return <PartnersCard 
+                    id={partner.id}
+                    location={searchParams.get("location")!}
+                    trade={partner.trade}
+                    name={partner.name}
+                    logo={partner.logo}
+                    thumbnail={partner.thumbnail}
+                    locations={partner.locations}
+                />
+            })
+    }, [])
 
-    const cityPartners = partners.filter(
-        (partner) => city?.partners.includes(partner.id)
-    )
-
-    if(
-        searchParams.get("location") == "" ||
-        !searchParams.get("location")
-    ) return <main className="partners__main">
+    if(!location) 
+    return <main className="partners__main">
         <header className="partners__header">
             <h1 className="partners__heading">
                 Our partners
             </h1>
             <div className="partners__logos">
-                {
-                    partners?.map(({name, logo, website}) => {
-                        return <a 
-                            href={website}
-                            className="partners__logos__link"
-                            target="_blank"
-                        >
-                            <img 
-                                src={logo}
-                                alt={`${name} logo`}
-                                className="partners__logos__logo"
-                            />
-                        </a>
-                    })
-                }
+                {partnersLogos}
             </div>
         </header>
         <div className="partners__location-search-container">
             <SearchLocation />
         </div>
     </main>
-    
+    else 
     return <main className="partners__main">
         <header className="partners__header">
             <h1 className="partners__heading">
@@ -82,32 +90,9 @@ const Partners = () => {
             </div>
         </header>
         <section className="partners__partners">
-            {
-                cityPartners?.
-                    filter(({name}) => 
-                        name
-                        .toLowerCase()
-                        .includes(
-                            searchPartners.toLowerCase()
-                        )
-                    ).
-                    map((partner) => {
-                        return <PartnersCard 
-                            id={partner.id}
-                            location={searchParams.get("location")!}
-                            trade={partner.trade}
-                            name={partner.name}
-                            logo={partner.logo}
-                            thumbnail={partner.thumbnail}
-                            locationsNumber={partner.locationsNumber}
-                        />
-                    })
-            }
+            {cityPartners ?? null}
         </section>
     </main>
-
-    return "0";
-
 }
 
 export default Partners

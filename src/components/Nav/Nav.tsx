@@ -25,10 +25,10 @@ const Nav = () => {
     
     const {pathname} = useLocation()
     const [searchParams] = useSearchParams()
-    
-    const [displayCart, setDisplayCart] = useState<boolean>(false)
     const partnerId = searchParams.get("partner") ?? "0";
+    
     const {cart} = useCart(partnerId)
+    const [displayCart, setDisplayCart] = useState<boolean>(false)
 
     useEffect(() => {
         navRef.current?.scrollIntoView({behavior: "smooth"})
